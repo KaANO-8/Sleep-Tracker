@@ -28,6 +28,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
+import kotlinx.android.synthetic.main.fragment_sleep_tracker.*
 
 /**
  * A fragment with buttons to record start and end times for sleep, which are saved in
@@ -69,12 +70,14 @@ class SleepTrackerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sleepTrackerViewModel.navigateToSleepQuality.observe(this, Observer { night ->
-            night?.let {
-                this.findNavController().navigate(SleepTrackerFragmentDirections
-                        .actionSleepTrackerFragmentToSleepQualityFragment(night.nightID))
-                sleepTrackerViewModel.doneNavigating()
-            }
-        })
+        with(sleepTrackerViewModel) {
+            navigateToSleepQuality.observe(this@SleepTrackerFragment, Observer { night ->
+                night?.let {
+                    this@SleepTrackerFragment.findNavController().navigate(SleepTrackerFragmentDirections
+                            .actionSleepTrackerFragmentToSleepQualityFragment(night.nightID))
+                    sleepTrackerViewModel.doneNavigating()
+                }
+            })
+        }
     }
 }
