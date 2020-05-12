@@ -69,13 +69,12 @@ class SleepTrackerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         sleepTrackerViewModel.navigateToSleepQuality.observe(this, Observer { night ->
             night?.let {
                 this.findNavController().navigate(SleepTrackerFragmentDirections
                         .actionSleepTrackerFragmentToSleepQualityFragment(night.nightID))
+                sleepTrackerViewModel.doneNavigating()
             }
-            sleepTrackerViewModel.doneNavigating()
         })
     }
 }
